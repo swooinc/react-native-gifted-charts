@@ -1,47 +1,47 @@
-import {Fragment, useCallback, useEffect, useMemo, useRef} from 'react';
 import {
-  View,
-  Animated,
-  Easing,
-  Text,
-  Dimensions,
-  ColorValue,
-  I18nManager,
-  ViewStyle,
-} from 'react-native';
-import {styles} from './styles';
-import {screenWidth, usePrevious} from '../utils';
-import Svg, {
-  Path,
-  LinearGradient,
-  Stop,
-  Circle,
-  Rect,
-  Text as CanvasText,
-  Line,
-  ClipPath,
-  Use,
-} from 'react-native-svg';
-import {
-  getSegmentedPathObjects,
+  adjustToOffset,
   getRegionPathObjects,
+  getSegmentedPathObjects,
+  LineChartPropsType,
+  lineDataItem,
+  LineDefaults,
+  LineProperties,
+  LineSvgProps,
+  pointsWithPaddedRepititions,
   RANGE_ENTER,
   RANGE_EXIT,
   SEGMENT_END,
   SEGMENT_START,
   STOP,
-  LineChartPropsType,
-  lineDataItem,
-  LineSvgProps,
   useLineChart,
-  adjustToOffset,
-  LineProperties,
-  LineDefaults,
-  pointsWithPaddedRepititions,
 } from 'gifted-charts-core';
+import {Fragment, useCallback, useEffect, useMemo, useRef} from 'react';
+import {
+  Animated,
+  ColorValue,
+  Dimensions,
+  Easing,
+  I18nManager,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
+import Svg, {
+  Text as CanvasText,
+  Circle,
+  ClipPath,
+  Line,
+  LinearGradient,
+  Path,
+  Rect,
+  Stop,
+  Use,
+} from 'react-native-svg';
 import BarAndLineChartsWrapper from '../Components/BarAndLineChartsWrapper';
-import {StripAndLabel} from '../Components/common/StripAndLabel';
 import {Pointer} from '../Components/common/Pointer';
+import {StripAndLabel} from '../Components/common/StripAndLabel';
+import {screenWidth, usePrevious} from '../utils';
+import {styles} from './styles';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -314,6 +314,7 @@ export const LineChart = (props: LineChartPropsType) => {
     barAndLineChartsWrapperProps,
     areaChart,
     mostNegativeValue,
+    xLabelWidth,
   } = useLineChart({
     ...props,
     parentWidth: props.parentWidth ?? screenWidth,
@@ -515,6 +516,7 @@ export const LineChart = (props: LineChartPropsType) => {
     labelTextStyle: any,
     labelComponent: Function | undefined,
   ) => {
+    const xLabelWidth = props.xLabelWidth;
     return (
       <View
         style={[
@@ -528,9 +530,15 @@ export const LineChart = (props: LineChartPropsType) => {
             zIndex: 10,
             width: spacing + labelsExtraHeight,
             left:
-              index === 0 && initialSpacing < 10
-                ? initialSpacing / 2 + spacing * index - spacing / 2 + 4
-                : initialSpacing / 2 + spacing * index - spacing / 2 - 10,
+              xLabelWidth === undefined
+                ? index === 0 && initialSpacing < 10
+                  ? initialSpacing / 2 + spacing * index - spacing / 2 + 4
+                  : initialSpacing / 2 + spacing * index - spacing / 2 - 10
+                : index === 0 && initialSpacing < 10
+                ? 0
+                : xLabelWidth
+                ? xLabelWidth * index
+                : 0,
             height: props.xAxisLabelsHeight ?? xAxisTextNumberOfLines * 18,
           },
           rotateLabel && {transform: [{rotate: '60deg'}]},
@@ -561,15 +569,15 @@ export const LineChart = (props: LineChartPropsType) => {
           {
             height: rotateLabel
               ? 40
-              : (props.xAxisLabelsHeight ?? xAxisTextNumberOfLines * 18),
+              : props.xAxisLabelsHeight ?? xAxisTextNumberOfLines * 18,
             position: 'absolute',
             bottom: top
               ? containerHeight +
                 60 +
                 (secondaryXAxis?.labelsDistanceFromXaxis ?? 15)
               : rotateLabel
-                ? 10
-                : 54 - xAxisTextNumberOfLines * 18,
+              ? 10
+              : 54 - xAxisTextNumberOfLines * 18,
             zIndex: 10,
             width: spacing,
             left:
@@ -781,8 +789,8 @@ export const LineChart = (props: LineChartPropsType) => {
                         item.onPress
                           ? item.onPress(item, index)
                           : props.onPress
-                            ? props.onPress(item, index)
-                            : null;
+                          ? props.onPress(item, index)
+                          : null;
                       }}
                     />
                   )}
@@ -805,8 +813,8 @@ export const LineChart = (props: LineChartPropsType) => {
                         item.onPress
                           ? item.onPress(item, index)
                           : props.onPress
-                            ? props.onPress(item, index)
-                            : null;
+                          ? props.onPress(item, index)
+                          : null;
                       }}
                     />
                   )}
@@ -833,8 +841,8 @@ export const LineChart = (props: LineChartPropsType) => {
                           (item.dataPointLabelWidth
                             ? item.dataPointLabelWidth + 20
                             : props.dataPointLabelWidth
-                              ? props.dataPointLabelWidth + 20
-                              : 50) /
+                            ? props.dataPointLabelWidth + 20
+                            : 50) /
                             2 +
                           spacing * index,
                       },
@@ -885,8 +893,7 @@ export const LineChart = (props: LineChartPropsType) => {
             y1={extendedContainerHeight}
             x2={x}
             y2={
-              (item.verticalLineUptoDataPoint ??
-              props.verticalLinesUptoDataPoint)
+              item.verticalLineUptoDataPoint ?? props.verticalLinesUptoDataPoint
                 ? getY(item.value)
                 : -xAxisThickness
             }
@@ -1174,7 +1181,7 @@ export const LineChart = (props: LineChartPropsType) => {
     if (!points) return null;
     const isCurved = points.includes('C') || points.includes('Q');
     const isNthAreaChart = !!dataSet
-      ? (dataSet[Number(key)].areaChart ?? areaChart)
+      ? dataSet[Number(key)].areaChart ?? areaChart
       : getIsNthAreaChart(key ?? 0);
     let ar: LineProperties[] = [{d: '', color: '', strokeWidth: 0}];
     if (points.includes(RANGE_ENTER)) {
@@ -1789,73 +1796,73 @@ export const LineChart = (props: LineChartPropsType) => {
               })
             : null
           : isAnimated
-            ? renderAnimatedLine(
-                containerHeightIncludingBelowXAxis,
-                zIndex1,
-                points,
-                widthValue,
-                thickness1,
-                color1,
-                fillPoints,
-                startFillColor1,
-                endFillColor1,
-                startOpacity1,
-                endOpacity1,
-                strokeDashArray1,
-                props.showArrow1 || props.showArrows,
-                arrow1Points,
-                arrowStrokeWidth1,
-                arrowStrokeColor1,
-                arrowFillColor1,
-                hideDataPoints1,
-                data,
-                props.data,
-                dataPointsShape1,
-                dataPointsWidth1,
-                dataPointsHeight1,
-                dataPointsColor1,
-                dataPointsRadius1,
-                textColor1,
-                textFontSize1,
-                startIndex1,
-                endIndex1,
-                false,
-                showValuesAsDataPointsText,
-                0,
-              )
-            : renderLine(
-                containerHeightIncludingBelowXAxis,
-                zIndex1,
-                points,
-                thickness1,
-                color1,
-                fillPoints,
-                startFillColor1,
-                endFillColor1,
-                startOpacity1,
-                endOpacity1,
-                strokeDashArray1,
-                props.showArrow1 || props.showArrows,
-                arrow1Points,
-                arrowStrokeWidth1,
-                arrowStrokeColor1,
-                arrowFillColor1,
-                hideDataPoints1,
-                data,
-                props.data,
-                dataPointsShape1,
-                dataPointsWidth1,
-                dataPointsHeight1,
-                dataPointsColor1,
-                dataPointsRadius1,
-                textColor1,
-                textFontSize1,
-                startIndex1,
-                endIndex1,
-                false,
-                showValuesAsDataPointsText,
-                0,
-              )}
+          ? renderAnimatedLine(
+              containerHeightIncludingBelowXAxis,
+              zIndex1,
+              points,
+              widthValue,
+              thickness1,
+              color1,
+              fillPoints,
+              startFillColor1,
+              endFillColor1,
+              startOpacity1,
+              endOpacity1,
+              strokeDashArray1,
+              props.showArrow1 || props.showArrows,
+              arrow1Points,
+              arrowStrokeWidth1,
+              arrowStrokeColor1,
+              arrowFillColor1,
+              hideDataPoints1,
+              data,
+              props.data,
+              dataPointsShape1,
+              dataPointsWidth1,
+              dataPointsHeight1,
+              dataPointsColor1,
+              dataPointsRadius1,
+              textColor1,
+              textFontSize1,
+              startIndex1,
+              endIndex1,
+              false,
+              showValuesAsDataPointsText,
+              0,
+            )
+          : renderLine(
+              containerHeightIncludingBelowXAxis,
+              zIndex1,
+              points,
+              thickness1,
+              color1,
+              fillPoints,
+              startFillColor1,
+              endFillColor1,
+              startOpacity1,
+              endOpacity1,
+              strokeDashArray1,
+              props.showArrow1 || props.showArrows,
+              arrow1Points,
+              arrowStrokeWidth1,
+              arrowStrokeColor1,
+              arrowFillColor1,
+              hideDataPoints1,
+              data,
+              props.data,
+              dataPointsShape1,
+              dataPointsWidth1,
+              dataPointsHeight1,
+              dataPointsColor1,
+              dataPointsRadius1,
+              textColor1,
+              textFontSize1,
+              startIndex1,
+              endIndex1,
+              false,
+              showValuesAsDataPointsText,
+              0,
+            )}
         {secondaryPoints
           ? isAnimated
             ? renderAnimatedLine(
