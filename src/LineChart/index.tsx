@@ -314,7 +314,6 @@ export const LineChart = (props: LineChartPropsType) => {
     barAndLineChartsWrapperProps,
     areaChart,
     mostNegativeValue,
-    xLabelWidth,
   } = useLineChart({
     ...props,
     parentWidth: props.parentWidth ?? screenWidth,
