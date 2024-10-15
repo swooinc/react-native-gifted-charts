@@ -1,14 +1,14 @@
-import React, {Fragment, useEffect} from 'react';
-import {View, ScrollView, StyleSheet, I18nManager} from 'react-native';
+import {
+  BarAndLineChartsWrapperTypes,
+  chartTypes,
+  useBarAndLineChartsWrapper,
+  yAxisSides,
+} from 'gifted-charts-core';
+import {Fragment, useEffect} from 'react';
+import {I18nManager, ScrollView, StyleSheet, View} from 'react-native';
 import {renderHorizSections} from './renderHorizSections';
 import RenderLineInBarChart from './renderLineInBarChart';
 import RenderVerticalLines from './renderVerticalLines';
-import {
-  chartTypes,
-  yAxisSides,
-  BarAndLineChartsWrapperTypes,
-  useBarAndLineChartsWrapper,
-} from 'gifted-charts-core';
 
 const BarAndLineChartsWrapper = (props: BarAndLineChartsWrapperTypes) => {
   const {
@@ -113,10 +113,10 @@ const BarAndLineChartsWrapper = (props: BarAndLineChartsWrapperTypes) => {
     <View
       style={[
         styles.container,
-        horizontal && {
-          width: actualContainerWidth,
-          transform: transformForHorizontal,
-        },
+        // horizontal && {
+        //   width: actualContainerWidth,
+        //   transform: transformForHorizontal,
+        // },
       ]}>
       {hideAxesAndRules !== true
         ? renderHorizSections({

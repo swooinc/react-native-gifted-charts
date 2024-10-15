@@ -10,14 +10,14 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
-import { View, TouchableOpacity, Animated, Text } from 'react-native';
+import { AxesAndRulesDefaults, getPropsForAnimated2DWithGradient, } from 'gifted-charts-core';
+import { Animated, Text, TouchableOpacity, View } from 'react-native';
 import AnimatedThreeDBar from '../Components/AnimatedThreeDBar';
-import Animated2DWithGradient from './Animated2DWithGradient';
-import Cap from '../Components/BarSpecificComponents/cap';
 import BarBackgroundPattern from '../Components/BarSpecificComponents/barBackgroundPattern';
-import LinearGradient from '../Components/common/LinearGradient';
-import { getPropsForAnimated2DWithGradient, AxesAndRulesDefaults, } from 'gifted-charts-core';
+import Cap from '../Components/BarSpecificComponents/cap';
 import Tooltip from '../Components/BarSpecificComponents/tooltip';
+import LinearGradient from '../Components/common/LinearGradient';
+import Animated2DWithGradient from './Animated2DWithGradient';
 var RenderBars = function (props) {
     var _a, _b, _c, _d, _e;
     var item = props.item, index = props.index, containerHeight = props.containerHeight, maxValue = props.maxValue, minHeight = props.minHeight, spacing = props.spacing, propSpacing = props.propSpacing, side = props.side, data = props.data, barBorderWidth = props.barBorderWidth, barBorderColor = props.barBorderColor, isThreeD = props.isThreeD, isAnimated = props.isAnimated, rotateLabel = props.rotateLabel, appearingOpacity = props.appearingOpacity, animationDuration = props.animationDuration, autoShiftLabels = props.autoShiftLabels, label = props.label, secondaryLabel = props.secondaryLabel, labelTextStyle = props.labelTextStyle, secondaryLabelTextStyle = props.secondaryLabelTextStyle, xAxisTextNumberOfLines = props.xAxisTextNumberOfLines, xAxisLabelsVerticalShift = props.xAxisLabelsVerticalShift, renderTooltip = props.renderTooltip, leftShiftForTooltip = props.leftShiftForTooltip, leftShiftForLastIndexTooltip = props.leftShiftForLastIndexTooltip, initialSpacing = props.initialSpacing, selectedIndex = props.selectedIndex, setSelectedIndex = props.setSelectedIndex, _f = props.xAxisThickness, xAxisThickness = _f === void 0 ? AxesAndRulesDefaults.xAxisThickness : _f, horizontal = props.horizontal, rtl = props.rtl, intactTopLabel = props.intactTopLabel, showValuesAsTopLabel = props.showValuesAsTopLabel, topLabelContainerStyle = props.topLabelContainerStyle, topLabelTextStyle = props.topLabelTextStyle, pointerConfig = props.pointerConfig, noOfSectionsBelowXAxis = props.noOfSectionsBelowXAxis, yAxisOffset = props.yAxisOffset, barWidth = props.barWidth, _g = props.labelsDistanceFromXaxis, labelsDistanceFromXaxis = _g === void 0 ? 0 : _g, stepHeight = props.stepHeight, stepValue = props.stepValue, negativeStepHeight = props.negativeStepHeight, negativeStepValue = props.negativeStepValue, autoCenterTooltip = props.autoCenterTooltip, secondaryXAxis = props.secondaryXAxis, secondaryStepHeight = props.secondaryStepHeight, secondaryStepValue = props.secondaryStepValue, secondaryNegativeStepHeight = props.secondaryNegativeStepHeight, secondaryNegativeStepValue = props.secondaryNegativeStepValue, secondaryNoOfSectionsBelowXAxis = props.secondaryNoOfSectionsBelowXAxis;
@@ -237,7 +237,7 @@ var RenderBars = function (props) {
         autoCenterTooltip: autoCenterTooltip,
         horizontal: horizontal,
     };
-    return (_jsxs(_Fragment, { children: [pressDisabled ? (_jsx(View, { pointerEvents: "none", style: barWrapperStyle, children: barContent() })) : (_jsx(TouchableOpacity, { activeOpacity: props.activeOpacity || 0.2, onPress: function () {
+    return (_jsxs(_Fragment, { children: [pressDisabled ? (_jsx(View, { pointerEvents: "none", children: barContent() })) : (_jsx(TouchableOpacity, { activeOpacity: props.activeOpacity || 0.2, onPress: function () {
                     if (renderTooltip || props.focusBarOnPress) {
                         if (props.focusedBarIndex === undefined || !props.onPress) {
                             setSelectedIndex(index);
@@ -260,6 +260,6 @@ var RenderBars = function (props) {
                         : props.onPressOut
                             ? props.onPressOut(item, index)
                             : null;
-                }, style: barWrapperStyle, children: barContent() })), renderTooltip && selectedIndex === index && (_jsx(Tooltip, __assign({}, tooltipProps)))] }));
+                }, children: barContent() })), renderTooltip && selectedIndex === index && (_jsx(Tooltip, __assign({}, tooltipProps)))] }));
 };
 export default RenderBars;

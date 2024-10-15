@@ -1,16 +1,16 @@
-import {View, TouchableOpacity, Animated, Text} from 'react-native';
-import AnimatedThreeDBar from '../Components/AnimatedThreeDBar';
-import Animated2DWithGradient from './Animated2DWithGradient';
-import Cap from '../Components/BarSpecificComponents/cap';
-import BarBackgroundPattern from '../Components/BarSpecificComponents/barBackgroundPattern';
-import LinearGradient from '../Components/common/LinearGradient';
 import {
+  AxesAndRulesDefaults,
+  barDataItem,
   getPropsForAnimated2DWithGradient,
   RenderBarsPropsType,
-  barDataItem,
-  AxesAndRulesDefaults,
 } from 'gifted-charts-core';
+import {Animated, Text, TouchableOpacity, View} from 'react-native';
+import AnimatedThreeDBar from '../Components/AnimatedThreeDBar';
+import BarBackgroundPattern from '../Components/BarSpecificComponents/barBackgroundPattern';
+import Cap from '../Components/BarSpecificComponents/cap';
 import Tooltip from '../Components/BarSpecificComponents/tooltip';
+import LinearGradient from '../Components/common/LinearGradient';
+import Animated2DWithGradient from './Animated2DWithGradient';
 
 const RenderBars = (props: RenderBarsPropsType) => {
   const {
@@ -486,7 +486,10 @@ const RenderBars = (props: RenderBarsPropsType) => {
   return (
     <>
       {pressDisabled ? (
-        <View pointerEvents="none" style={barWrapperStyle}>
+        <View
+          pointerEvents="none"
+          // style={barWrapperStyle}
+        >
           {barContent()}
         </View>
       ) : (
@@ -518,7 +521,8 @@ const RenderBars = (props: RenderBarsPropsType) => {
                 ? props.onPressOut(item, index)
                 : null;
           }}
-          style={barWrapperStyle}>
+          //style={barWrapperStyle}
+        >
           {barContent()}
         </TouchableOpacity>
       )}

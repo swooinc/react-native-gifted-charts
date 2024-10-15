@@ -241,7 +241,7 @@ export var LineChart = function (props) {
                 {
                     height: rotateLabel
                         ? 40
-                        : (_a = props.xAxisLabelsHeight) !== null && _a !== void 0 ? _a : xAxisTextNumberOfLines * 18,
+                        : ((_a = props.xAxisLabelsHeight) !== null && _a !== void 0 ? _a : xAxisTextNumberOfLines * 18),
                     position: 'absolute',
                     bottom: top
                         ? containerHeight +
@@ -582,7 +582,7 @@ export var LineChart = function (props) {
             return null;
         var isCurved = points.includes('C') || points.includes('Q');
         var isNthAreaChart = !!dataSet
-            ? (_a = dataSet[Number(key)].areaChart) !== null && _a !== void 0 ? _a : areaChart
+            ? ((_a = dataSet[Number(key)].areaChart) !== null && _a !== void 0 ? _a : areaChart)
             : getIsNthAreaChart(key !== null && key !== void 0 ? key : 0);
         var ar = [{ d: '', color: '', strokeWidth: 0 }];
         if (points.includes(RANGE_ENTER)) {
