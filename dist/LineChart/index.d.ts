@@ -1,2 +1,6 @@
 import { LineChartPropsType } from 'gifted-charts-core';
-export declare const LineChart: (props: LineChartPropsType) => import("react/jsx-runtime").JSX.Element;
+interface ExtendedLineChartPropsType extends LineChartPropsType {
+    xLabelWidth?: number;
+}
+export declare const LineChart: (props: ExtendedLineChartPropsType) => import("react/jsx-runtime").JSX.Element;
+export {};

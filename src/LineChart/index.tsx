@@ -45,7 +45,11 @@ import {styles} from './styles';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-export const LineChart = (props: LineChartPropsType) => {
+interface ExtendedLineChartPropsType extends LineChartPropsType {
+  xLabelWidth?: number;
+}
+
+export const LineChart = (props: ExtendedLineChartPropsType) => {
   const scrollRef = props.scrollRef ?? useRef(null);
   const opacityValue = useMemo(() => new Animated.Value(0), []);
   const heightValue = useMemo(() => new Animated.Value(0), []);
