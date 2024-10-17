@@ -1,27 +1,28 @@
 export {BarChart} from './BarChart';
-export {PieChart} from './PieChart';
-export {PieChartPro} from './PieChartPro';
+export type {ExtendedLineChartPropsType} from './ExtendedLineChartPropsType';
 export {LineChart} from './LineChart';
 export {LineChartBicolor} from './LineChart/LineChartBicolor';
+export {PieChart} from './PieChart';
+export {PieChartPro} from './PieChartPro';
 export {PopulationPyramid} from './PopulationPyramid';
 
 export {
-  type barDataItem,
-  type  stackDataItem,
-  type  BarChartPropsType,
-  type  StackedBarChartPropsType,
-  type  pieDataItem,
-  type  PieChartPropsType,
-  type  lineDataItem,
-  type  bicolorLineDataItem,
-  type  LineChartPropsType,
-  type  LineChartBicolorPropsType,
-  type  popnPyramidDataItem,
-  type  PopulationPyramidPropsType,
+  EdgePosition,
   chartTypes,
   ruleTypes,
   yAxisSides,
-  EdgePosition,
+  type BarChartPropsType,
   type DataSet,
-  type Linecap
+  type LineChartBicolorPropsType,
+  type LineChartPropsType,
+  type Linecap,
+  type PieChartPropsType,
+  type PopulationPyramidPropsType,
+  type StackedBarChartPropsType,
+  type barDataItem,
+  type bicolorLineDataItem,
+  type lineDataItem,
+  type pieDataItem,
+  type popnPyramidDataItem,
+  type stackDataItem,
 } from 'gifted-charts-core';

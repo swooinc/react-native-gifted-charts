@@ -2,7 +2,6 @@ import {
   adjustToOffset,
   getRegionPathObjects,
   getSegmentedPathObjects,
-  LineChartPropsType,
   lineDataItem,
   LineDefaults,
   LineProperties,
@@ -40,14 +39,11 @@ import Svg, {
 import BarAndLineChartsWrapper from '../Components/BarAndLineChartsWrapper';
 import {Pointer} from '../Components/common/Pointer';
 import {StripAndLabel} from '../Components/common/StripAndLabel';
+import {ExtendedLineChartPropsType} from '../ExtendedLineChartPropsType';
 import {screenWidth, usePrevious} from '../utils';
 import {styles} from './styles';
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-
-interface ExtendedLineChartPropsType extends LineChartPropsType {
-  xLabelWidth?: number;
-}
 
 export const LineChart = (props: ExtendedLineChartPropsType) => {
   const scrollRef = props.scrollRef ?? useRef(null);
